@@ -3,7 +3,12 @@ resource "aws_eks_cluster" "fiap_fast_food_eks" {
   role_arn = var.lab_role
 
   vpc_config {
-    subnet_ids = [aws_subnet.subnet-msv-a.id, aws_subnet.subnet-msv-b.id]
+    subnet_ids = [
+      aws_subnet.subnet-msv-1a.id, 
+      aws_subnet.subnet-msv-1b.id, 
+      aws_subnet.subnet-msv-2a.id,
+      aws_subnet.subnet-msv-2b.id
+    ]
   }
   
   #depends_on = [
