@@ -1,15 +1,19 @@
 resource "aws_eks_cluster" "fiap_fast_food_eks" {
   name     = "fiap_fast_food_eks"
+  version  = 1.25
   role_arn = var.lab_role
 
   vpc_config {
+    endpoint_public_access = true
     subnet_ids = [
-      aws_subnet.subnet-msv-1a.id, 
-      aws_subnet.subnet-msv-1b.id, 
+      aws_subnet.subnet-msv-1a.id,
+      aws_subnet.subnet-msv-1b.id,
       aws_subnet.subnet-msv-2a.id,
       aws_subnet.subnet-msv-2b.id
     ]
   }
+
+  #enabled_cluster_log_types = ["api", "audit"]
   
   #depends_on = [
   #  aws_iam_role_policy_attachment.fiap_fast_food_eks_amazon_eks_cluster_policy,
@@ -17,9 +21,17 @@ resource "aws_eks_cluster" "fiap_fast_food_eks" {
   #]
   depends_on = [
     data.aws_iam_policy.cluster_policy,
-    data.aws_iam_policy.resource_controller
+    data.aws_iam_policy.resource_controller,
+    data.aws_iam_policy.worker_node_policy,
+    data.aws_iam_policy.cni_policy,
+    data.aws_iam_policy.container_registry_read_only_policy
   ]
 }
+
+#resource "aws_cloudwatch_log_group" "fiap_fast_food_eks_cloudwatch" {
+#  name              = "/aws/eks/${aws_eks_cluster.fiap_fast_food_eks.name}/cluster"
+#  retention_in_days = 7
+#}
 
 #resource "aws_iam_role_policy_attachment" "fiap_fast_food_eks_amazon_eks_cluster_policy" {
 #  policy_arn  = data.aws_iam_policy.cluster_policy.arn
@@ -43,14 +55,10 @@ resource "aws_eks_node_group" "fiap_fast_food_node_group" {
   node_group_name = "fiap_fast_food"
   node_role_arn   = data.aws_iam_role.lab_role.arn
   subnet_ids      = [
-    aws_subnet.subnet-msv-1a.id, 
-    aws_subnet.subnet-msv-1b.id, 
+    aws_subnet.subnet-msv-1a.id,
+    aws_subnet.subnet-msv-1b.id,
     aws_subnet.subnet-msv-2a.id,
-    aws_subnet.subnet-msv-2b.id,
-    aws_subnet.subnet-mss-1ap.id,
-    aws_subnet.subnet-mss-1ab.id,
-    aws_subnet.subnet-mss-2ba.id,
-    aws_subnet.subnet-mss-2bb.id
+    aws_subnet.subnet-msv-2b.id
   ]
 
   scaling_config {
@@ -66,6 +74,7 @@ resource "aws_eks_node_group" "fiap_fast_food_node_group" {
   instance_types = ["t3.medium"]
 
   depends_on = [
+    aws_eks_cluster.fiap_fast_food_eks,
     data.aws_iam_policy.worker_node_policy,
     data.aws_iam_policy.cni_policy,
     data.aws_iam_policy.container_registry_read_only_policy,
