@@ -1,8 +1,8 @@
 resource "aws_elb" "internal_fiap_fast_food_elb" {
     name                    = "fiap-fast-food-elb"
     subnets                 = [
-        aws_subnet.subnet-msv-1a.id,
-        aws_subnet.subnet-msv-1b.id
+        aws_subnet.subnet-cluster-1.id,
+        aws_subnet.subnet-cluster-2.id
     ]
 
     listener {

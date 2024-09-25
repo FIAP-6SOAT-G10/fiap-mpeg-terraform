@@ -12,7 +12,7 @@ resource "aws_eip" "lb" {
 
 resource "aws_nat_gateway" "nat_internet_gateway" {
   allocation_id = aws_eip.lb.id
-  subnet_id     = aws_subnet.subnet-msv-1a.id
+  subnet_id     = aws_subnet.subnet-cluster-1.id
 
   depends_on = [aws_internet_gateway.internet_gateway]
   tags = {
