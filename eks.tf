@@ -4,7 +4,12 @@ resource "aws_eks_cluster" "fiap_fast_food_eks" {
   role_arn = var.lab_role
 
   vpc_config {
-    endpoint_public_access = true
+    endpoint_public_access    = true
+    endpoint_private_access   = true
+    security_group_ids        = [
+      #aws_security_group.sg_fiap_fast_food.id
+      
+    ]
     subnet_ids = [
       aws_subnet.subnet-msv-1a.id,
       aws_subnet.subnet-msv-1b.id,
@@ -13,12 +18,6 @@ resource "aws_eks_cluster" "fiap_fast_food_eks" {
     ]
   }
 
-  #enabled_cluster_log_types = ["api", "audit"]
-  
-  #depends_on = [
-  #  aws_iam_role_policy_attachment.fiap_fast_food_eks_amazon_eks_cluster_policy,
-  #  aws_iam_role_policy_attachment.fiap_fast_food_eks_amazon_eks_resource_controller,
-  #]
   depends_on = [
     data.aws_iam_policy.cluster_policy,
     data.aws_iam_policy.resource_controller,
@@ -27,28 +26,6 @@ resource "aws_eks_cluster" "fiap_fast_food_eks" {
     data.aws_iam_policy.container_registry_read_only_policy
   ]
 }
-
-#resource "aws_cloudwatch_log_group" "fiap_fast_food_eks_cloudwatch" {
-#  name              = "/aws/eks/${aws_eks_cluster.fiap_fast_food_eks.name}/cluster"
-#  retention_in_days = 7
-#}
-
-#resource "aws_iam_role_policy_attachment" "fiap_fast_food_eks_amazon_eks_cluster_policy" {
-#  policy_arn  = data.aws_iam_policy.cluster_policy.arn
-#  role        = data.aws_iam_role.lab_role.name
-#}
-
-#resource "aws_iam_role_policy_attachment" "fiap_fast_food_eks_amazon_eks_resource_controller" {
-#  policy_arn  = data.aws_iam_policy.resource_controller.arn
-#  role        = data.aws_iam_role.lab_role.name
-#}
-
-#resource "aws_eks_pod_identity_association" "fiap_fast_food_namespace" {
-#  cluster_name    = aws_eks_cluster.fiap_fast_food_eks.name
-#  namespace       = "fiap-fast-food"
-#  service_account = "fiap-fast-food"
-#  role_arn        = data.aws_iam_role.lab_role.arn
-#}
 
 resource "aws_eks_node_group" "fiap_fast_food_node_group" {
   cluster_name    = aws_eks_cluster.fiap_fast_food_eks.name
