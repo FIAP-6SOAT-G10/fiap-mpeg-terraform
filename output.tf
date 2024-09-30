@@ -13,12 +13,12 @@ output "ecr-repository-url" {
     value       = aws_ecr_repository.fiap_fast_food_app.repository_url
 }
 
-output "elb-internal-dns-url" {
-    description = "Internal ELB DNS"
-    value       = aws_elb.internal_fiap_fast_food_elb.dns_name
+output "lab-role" {
+    description = "Lab Role"
+    value       = data.aws_iam_role.lab_role
 }
 
-output "lab-role" {
-    description = "Lab Role FIAP"
-    value       = data.aws_iam_role.lab_role
+output "vpc_configs" {
+    description = "VPCs"
+    value       = aws_eks_cluster.fiap_fast_food_eks.vpc_config
 }
