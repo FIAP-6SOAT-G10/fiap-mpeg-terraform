@@ -19,6 +19,6 @@ output "elb-internal-dns-url" {
 }
 
 output "lab-role" {
-    description = "Lab Role"
+    description = "Lab Role FIAP"
     value       = data.aws_iam_role.lab_role
 }
