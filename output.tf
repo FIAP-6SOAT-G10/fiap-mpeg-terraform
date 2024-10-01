@@ -1,5 +1,5 @@
 output "eks-endpoint" {
-    description = "AWS EKS Endpoint"
+    description = "AWS EKS Endpoint "
     value       = aws_eks_cluster.fiap_fast_food_eks.endpoint
 }
 
