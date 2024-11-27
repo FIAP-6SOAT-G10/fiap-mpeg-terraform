@@ -9,8 +9,8 @@ env:
   AWS_REGION: us-east-1
 
 jobs:
-  provide-infrastructure:
-    name: Create Infrastructure
+  checkout:
+    name: Checkout
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +20,8 @@ jobs:
   configure-credentials:
     name: Configure AWS Credentials
     runs-on: ubuntu-latest
+    needs:
+      - checkout
 
     steps:
       - name: Configure AWS Credentials
@@ -34,18 +36,23 @@ jobs:
   install-terraform:
     name: Install Terraform
     runs-on: ubuntu-latest
+    needs:
+      - checkout
+      - configure-credentials
 
     steps:
-
       - name: Installing Terraform
         uses: hashicorp/setup-terraform@v3
 
   configure-credentials-to-environment:
     name: Configure Environment
     runs-on: ubuntu-latest
+    needs:
+      - checkout
+      - configure-credentials
+      - install-terraform
 
     steps:
-
       - name: Configuring Secrets to Environment
         run: echo Configuring Secrets
         env:
@@ -56,26 +63,41 @@ jobs:
   init-terraform:
     name: Initializing Terraform
     runs-on: ubuntu-latest
+    needs:
+      - checkout
+      - configure-credentials
+      - install-terraform
+      - configure-credentials-to-environment
 
     steps:
-
       - name: Terraform Initializing
         run: terraform init
 
   plan-terraform:
     name: Planning Terraform
     runs-on: ubuntu-latest
+    needs:
+      - checkout
+      - configure-credentials
+      - install-terraform
+      - configure-credentials-to-environment
+      - init-terraform
 
     steps:
-
       - name: Terraform Planning
         run: terraform plan -out=tfplan
 
   apply-terraform:
     name: Applying Terraform
     runs-on: ubuntu-latest
+    needs:
+      - checkout
+      - configure-credentials
+      - install-terraform
+      - configure-credentials-to-environment
+      - init-terraform
+      - plan-terraform
 
     steps:
-
       - name: Terraform Applying
         run: terraform apply --auto-approve
