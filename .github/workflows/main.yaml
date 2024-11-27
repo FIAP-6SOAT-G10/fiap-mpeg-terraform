@@ -40,37 +40,25 @@ jobs:
       - configure-credentials
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Installing Terraform
         uses: hashicorp/setup-terraform@v3
 
-  init-terraform:
-    name: Terraform
-    runs-on: ubuntu-latest
-    needs:
-      - checkout
-      - configure-credentials
-      - install-terraform
-
-    steps:
-      - name: AWS Credentials to Terraform
-        run: |
-          echo Creating environment variables
-          export AWS_ACCESS_KEY_ID=${{secrets.AWS_ACCESS_KEY_ID}}
-          export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
-          export AWS_SESSION_TOKEN=${{secrets.AWS_SESSION_TOKEN}}
-
-      - name: Checkout Terraform Files
-        uses: actions/checkout@v4
-
       - name: Terraform Initializing
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
         run: terraform init
 
       - name: Terraform Planning
-        run: terraform plan -out=tfplan
         env:
           AWS_ACCESS_KEY_ID: ${{ env.aws_access_key_id }}
           AWS_SECRET_ACCESS_KEY: ${{ env.aws_secret_access_key }}
           AWS_SESSION_TOKEN: ${{ env.aws_session_token }}
+        run: terraform plan -out=tfplan
 
       - name: Terraform Applying
         run: terraform apply --auto-approve
