@@ -50,7 +50,6 @@ jobs:
       - checkout
       - configure-credentials
       - install-terraform
-      - configure-credentials-to-environment
 
     steps:
       - name: AWS Credentials to Terraform
