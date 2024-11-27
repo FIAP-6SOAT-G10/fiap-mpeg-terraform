@@ -1,6 +1,6 @@
 resource "aws_eks_cluster" "fiap_fast_food_eks" {
   name     = "fiap_fast_food_eks"
-  role_arn = var.lab_role
+  role_arn = data.aws_iam_role.lab_role.arn
 
   vpc_config {
     endpoint_public_access    = true

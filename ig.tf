@@ -25,3 +25,11 @@ resource "aws_internet_gateway" "redis_internet_gateway" {
     Name      = "Public Redis Internet Gateway"
   }
 }
+
+resource "aws_internet_gateway" "rds_internet_gateway" {
+  vpc_id      = aws_vpc.rds_vpc.id
+
+  tags = {
+    Name      = "Public RDS Internet Gateway"
+  }
+}

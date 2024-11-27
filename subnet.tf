@@ -97,32 +97,24 @@ resource "aws_elasticache_subnet_group" "elastic_cache_subnet_group" {
 }
 
 resource "aws_subnet" "rds_customer_subnet_pub_1" {
-  vpc_id                                        = aws_vpc.rds_customer_vpc.id
-  cidr_block                                    = "10.0.4.0/24"
-  availability_zone                             = data.aws_availability_zone.us-east-1b.name
-  depends_on                                    = [aws_vpc.rds_customer_vpc]
+  vpc_id                                        = aws_vpc.rds_vpc.id
+  cidr_block                                    = "10.0.0.0/24"
+  availability_zone                             = data.aws_availability_zone.us-east-1a.name
+  map_public_ip_on_launch                       = true
+  depends_on                                    = [aws_vpc.rds_vpc]
   tags = {
     Name                                        = "RDS Customer Subnet Public 1"
   }
 }
 
 resource "aws_subnet" "rds_customer_subnet_pub_2" {
-  vpc_id                                        = aws_vpc.rds_customer_vpc.id
-  cidr_block                                    = "10.0.5.0/24"
+  vpc_id                                        = aws_vpc.rds_vpc.id
+  cidr_block                                    = "10.0.1.0/24"
   availability_zone                             = data.aws_availability_zone.us-east-1b.name
-  depends_on                                    = [aws_vpc.rds_customer_vpc]
+  map_public_ip_on_launch                       = true
+  depends_on                                    = [aws_vpc.rds_vpc]
   tags = {
     Name                                        = "RDS Customer Subnet Public 2"
-  }
-}
-
-resource "aws_subnet" "rds_customer_subnet_pub_3" {
-  vpc_id                                        = aws_vpc.rds_customer_vpc.id
-  cidr_block                                    = "10.0.6.0/24"
-  availability_zone                             = data.aws_availability_zone.us-east-1b.name
-  depends_on                                    = [aws_vpc.rds_customer_vpc]
-  tags = {
-    Name                                        = "RDS Customer Subnet Public 3"
   }
 }
 
@@ -130,8 +122,7 @@ resource "aws_db_subnet_group" "rds_customer_subnet_group" {
   name                                          = "rds-customer-subnet-group"
   subnet_ids                                    = [
     aws_subnet.rds_customer_subnet_pub_1.id,
-    aws_subnet.rds_customer_subnet_pub_2.id,
-    aws_subnet.rds_customer_subnet_pub_3.id
+    aws_subnet.rds_customer_subnet_pub_2.id
   ]
 
   tags                                          = {
@@ -140,32 +131,24 @@ resource "aws_db_subnet_group" "rds_customer_subnet_group" {
 }
 
 resource "aws_subnet" "rds_product_subnet_pub_1" {
-  vpc_id                                        = aws_vpc.rds_product_vpc.id
-  cidr_block                                    = "12.0.4.0/24"
-  availability_zone                             = data.aws_availability_zone.us-east-1b.name
-  depends_on                                    = [aws_vpc.rds_product_vpc]
+  vpc_id                                        = aws_vpc.rds_vpc.id
+  cidr_block                                    = "10.0.3.0/24"
+  availability_zone                             = data.aws_availability_zone.us-east-1a.name
+  map_public_ip_on_launch                       = true
+  depends_on                                    = [aws_vpc.rds_vpc]
   tags = {
     Name                                        = "RDS Product Subnet Public 1"
   }
 }
 
 resource "aws_subnet" "rds_product_subnet_pub_2" {
-  vpc_id                                        = aws_vpc.rds_product_vpc.id
-  cidr_block                                    = "12.0.5.0/24"
+  vpc_id                                        = aws_vpc.rds_vpc.id
+  cidr_block                                    = "10.0.4.0/24"
   availability_zone                             = data.aws_availability_zone.us-east-1b.name
-  depends_on                                    = [aws_vpc.rds_product_vpc]
+  map_public_ip_on_launch                       = true
+  depends_on                                    = [aws_vpc.rds_vpc]
   tags = {
     Name                                        = "RDS Product Subnet Public 2"
-  }
-}
-
-resource "aws_subnet" "rds_product_subnet_pub_3" {
-  vpc_id                                        = aws_vpc.rds_product_vpc.id
-  cidr_block                                    = "12.0.6.0/24"
-  availability_zone                             = data.aws_availability_zone.us-east-1b.name
-  depends_on                                    = [aws_vpc.rds_product_vpc]
-  tags = {
-    Name                                        = "RDS Product Subnet Public 3"
   }
 }
 
@@ -173,8 +156,7 @@ resource "aws_db_subnet_group" "rds_product_subnet_group" {
   name                                          = "rds-product-subnet-group"
   subnet_ids                                    = [
     aws_subnet.rds_product_subnet_pub_1.id,
-    aws_subnet.rds_product_subnet_pub_2.id,
-    aws_subnet.rds_product_subnet_pub_3.id
+    aws_subnet.rds_product_subnet_pub_2.id
   ]
 
   tags                                          = {

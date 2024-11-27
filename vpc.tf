@@ -29,23 +29,15 @@ resource "aws_vpc" "elastic_cache_vpc" {
   }
 }
 
-resource "aws_vpc" "rds_customer_vpc" {
+resource "aws_vpc" "rds_vpc" {
   cidr_block            = "10.0.0.0/16"
 
   instance_tenancy      = "default"
+  enable_dns_hostnames  = true
+  enable_dns_support    = true
 
   tags                  = {
-    Name                = "RDS Customer Public VPC"
-  }
-}
-
-resource "aws_vpc" "rds_product_vpc" {
-  cidr_block            = "12.0.0.0/16"
-
-  instance_tenancy      = "default"
-
-  tags                  = {
-    Name                = "RDS Product Public VPC"
+    Name                = "RDS Public VPC"
   }
 }
 
@@ -57,17 +49,6 @@ resource "aws_route_table" "eks_route_table" {
   }
   tags                  = {
     Name                = "EKS Route Table"
-  }
-}
-
-resource "aws_route_table" "redshift_route_table" {
-  vpc_id                = aws_vpc.redshift_vpc.id
-  route {
-    cidr_block          = "0.0.0.0/0"
-    gateway_id          = aws_internet_gateway.redshift_internet_gateway.id
-  }
-  tags                  = {
-    Name                = "Redshift Route Table"
   }
 }
 
@@ -91,6 +72,17 @@ resource "aws_route_table_association" "route_table_association_eks_pvt_2" {
   route_table_id = aws_route_table.eks_route_table.id
 }
 
+resource "aws_route_table" "redshift_route_table" {
+  vpc_id                = aws_vpc.redshift_vpc.id
+  route {
+    cidr_block          = "0.0.0.0/0"
+    gateway_id          = aws_internet_gateway.redshift_internet_gateway.id
+  }
+  tags                  = {
+    Name                = "Redshift Route Table"
+  }
+}
+
 resource "aws_route_table_association" "route_table_association_redshift_pub_1" {
   subnet_id      = aws_subnet.redshift_cluster_subnet_pub_1.id
   route_table_id = aws_route_table.redshift_route_table.id
@@ -99,6 +91,37 @@ resource "aws_route_table_association" "route_table_association_redshift_pub_1" 
 resource "aws_route_table_association" "route_table_association_redshift_pub_2" {
   subnet_id      = aws_subnet.redshift_cluster_subnet_pub_2.id
   route_table_id = aws_route_table.redshift_route_table.id
+}
+
+resource "aws_route_table" "rds_route_table" {
+  vpc_id                = aws_vpc.rds_vpc.id
+  route {
+    cidr_block          = "0.0.0.0/0"
+    gateway_id          = aws_internet_gateway.rds_internet_gateway.id
+  }
+  tags                  = {
+    Name                = "RDS Route Table"
+  }
+}
+
+resource "aws_route_table_association" "route_table_association_rds_customer_pub_1" {
+  subnet_id      = aws_subnet.rds_customer_subnet_pub_1.id
+  route_table_id = aws_route_table.rds_route_table.id
+}
+
+resource "aws_route_table_association" "route_table_association_rds_customer_pub_2" {
+  subnet_id      = aws_subnet.rds_customer_subnet_pub_2.id
+  route_table_id = aws_route_table.rds_route_table.id
+}
+
+resource "aws_route_table_association" "route_table_association_rds_product_pub_1" {
+  subnet_id      = aws_subnet.rds_product_subnet_pub_1.id
+  route_table_id = aws_route_table.rds_route_table.id
+}
+
+resource "aws_route_table_association" "route_table_association_rds_product_pub_2" {
+  subnet_id      = aws_subnet.rds_product_subnet_pub_2.id
+  route_table_id = aws_route_table.rds_route_table.id
 }
 
 resource "aws_vpc_endpoint_security_group_association" "sg_ec2" {

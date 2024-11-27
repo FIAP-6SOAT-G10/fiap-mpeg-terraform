@@ -26,7 +26,7 @@ resource "aws_ecr_repository" "products" {
 }
 
 resource "aws_ecr_repository" "orders" {
-  name                 = "products"
+  name                 = "orders"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {

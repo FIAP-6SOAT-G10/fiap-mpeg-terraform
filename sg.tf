@@ -46,7 +46,7 @@ resource "aws_security_group" "elastic_cache_product_category_security_group" {
 
 resource "aws_security_group" "rds_customer_security_group" {
   name          = "rds-customer-security-group"
-  vpc_id        = aws_vpc.rds_customer_vpc.id
+  vpc_id        = aws_vpc.rds_vpc.id
 
   ingress {
     from_port   = 5432
@@ -69,7 +69,7 @@ resource "aws_security_group" "rds_customer_security_group" {
 
 resource "aws_security_group" "rds_product_security_group" {
   name          = "rds-product-security-group"
-  vpc_id        = aws_vpc.rds_product_vpc.id
+  vpc_id        = aws_vpc.rds_vpc.id
 
   ingress {
     from_port   = 5432
