@@ -1,0 +1,38 @@
+name: Provide Infrastructure
+
+on:
+  workflow_call:
+    inputs:
+      aws_region:
+        required: true
+        type: string
+    secrets:
+      aws_access_key_id:
+        required: true
+      aws_secret_access_key:
+        required: true
+      aws_session_token:
+        required: true
+
+    jobs:
+      terraform:
+
+        steps:
+          - name: Installing Terraform
+            uses: hashicorp/setup-terraform@v3
+
+          - name: Configuring Secrets to Environment
+            env:
+              AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key_id }}
+              AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret_access_key }}
+              AWS_SESSION_TOKEN: ${{ secrets.aws_session_token }}
+            run: echo Configured Secrets
+
+          - name: Terraform Initializing
+            run: terraform init
+
+          - name: Terraform Planning
+            run: terraform plan -out=tfplan
+
+          - name: Terraform Applying
+            run: terraform apply --auto-approve
