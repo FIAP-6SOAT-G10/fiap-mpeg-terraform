@@ -75,37 +75,8 @@ jobs:
       - name: Terraform Initializing
         run: terraform init
 
-  plan-terraform:
-    name: Terraform Plan
-    runs-on: ubuntu-latest
-    needs:
-      - checkout
-      - configure-credentials
-      - install-terraform
-      - configure-credentials-to-environment
-      - init-terraform
-
-    steps:
-      - name: Checkout Terraform Files
-        uses: actions/checkout@v4
-
       - name: Terraform Planning
         run: terraform plan -out=tfplan
-
-  apply-terraform:
-    name: Terraform Apply
-    runs-on: ubuntu-latest
-    needs:
-      - checkout
-      - configure-credentials
-      - install-terraform
-      - configure-credentials-to-environment
-      - init-terraform
-      - plan-terraform
-
-    steps:
-      - name: Checkout Terraform Files
-        uses: actions/checkout@v4
 
       - name: Terraform Applying
         run: terraform apply --auto-approve
