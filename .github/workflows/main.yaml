@@ -17,6 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+  configure-credentials:
+    name: Configure AWS Credentials
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Configure AWS Credentials
         uses:  aws-actions/configure-aws-credentials@v4
         with:
@@ -26,8 +31,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
 
+  install-terraform:
+    name: Install Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+
       - name: Installing Terraform
         uses: hashicorp/setup-terraform@v3
+
+  configure-credentials-to-environment:
+    name: Configure Environment
+    runs-on: ubuntu-latest
+
+    steps:
 
       - name: Configuring Secrets to Environment
         run: echo Configuring Secrets
@@ -36,11 +53,29 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
 
+  init-terraform:
+    name: Initializing Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+
       - name: Terraform Initializing
         run: terraform init
 
+  plan-terraform:
+    name: Planning Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+
       - name: Terraform Planning
         run: terraform plan -out=tfplan
+
+  apply-terraform:
+    name: Applying Terraform
+    runs-on: ubuntu-latest
+
+    steps:
 
       - name: Terraform Applying
         run: terraform apply --auto-approve
