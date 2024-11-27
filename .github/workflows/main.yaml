@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Configuring AWS credentials
-        uses: ./.github/workflows/actions/aws-credentials
+        uses: ./.github/actions/aws-credentials
         with:
           aws_region: us-east-1
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Installing Terraform
-        uses: ./.github/workflows/actions/provide-infrastructure
+        uses: ./.github/actions/provide-infrastructure
         with:
           aws_region: us-east-1
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
