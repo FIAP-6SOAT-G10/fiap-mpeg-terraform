@@ -1,8 +1,3 @@
-variable "lab_role" {
-    default = "arn:aws:iam::317575625452:role/LabRole"
-    description = "AWS LabRole"
-}
-
 variable "region_number" {
     default = {
         us-east-1      = 1

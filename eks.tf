@@ -1,16 +1,16 @@
 resource "aws_eks_cluster" "fiap_fast_food_eks" {
   name     = "fiap_fast_food_eks"
-  role_arn = var.lab_role
+  role_arn = data.aws_iam_role.lab_role.arn
 
   vpc_config {
     endpoint_public_access    = true
     endpoint_private_access   = false
 
     subnet_ids = [
-      aws_subnet.subnet-cluster-1-pub.id,
-      aws_subnet.subnet-cluster-2-pub.id,
-      aws_subnet.subnet-cluster-1-pvt.id,
-      aws_subnet.subnet-cluster-2-pvt.id
+      aws_subnet.eks_cluster_subnet_pub_1.id,
+      aws_subnet.eks_cluster_subnet_pub_2.id,
+      aws_subnet.eks_cluster_subnet_pvt_1.id,
+      aws_subnet.eks_cluster_subnet_pvt_2.id
     ]
 
     public_access_cidrs     = ["0.0.0.0/0"]
@@ -29,8 +29,8 @@ resource "aws_eks_node_group" "fiap_fast_food_node_group_public" {
   node_group_name = "fiap_fast_food_public"
   node_role_arn   = data.aws_iam_role.lab_role.arn
   subnet_ids      = [
-    aws_subnet.subnet-cluster-1-pub.id,
-    aws_subnet.subnet-cluster-2-pub.id
+    aws_subnet.eks_cluster_subnet_pub_1.id,
+    aws_subnet.eks_cluster_subnet_pub_2.id
   ]
 
   scaling_config {
