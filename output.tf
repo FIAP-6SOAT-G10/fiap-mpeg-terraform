@@ -3,17 +3,42 @@ output "eks-endpoint" {
     value       = aws_eks_cluster.fiap_fast_food_eks.endpoint
 }
 
-output "lab-role" {
-    description = "Lab Role"
-    value       = data.aws_iam_role.lab_role
-}
-
-output "vpc_configs" {
-    description = "VPCs"
-    value       = aws_eks_cluster.fiap_fast_food_eks.vpc_config
-}
-
 output "redis_endpoint" {
     description = "Redis Endpoint"
     value       = aws_elasticache_replication_group.redis_product_category.primary_endpoint_address
+}
+
+output "rds_customer" {
+    description = "RDS Customer URL"
+    value       = aws_db_instance.rds-customer.endpoint
+}
+
+output "rds_product" {
+    description = "RDS Product URL"
+    value       = aws_db_instance.rds-product.endpoint
+}
+
+output "ecr_payments" {
+    description = "ECR Payments"
+    value       = aws_ecr_repository.payments.connection
+}
+
+output "ecr_products" {
+    description = "ECR Products"
+    value       = aws_ecr_repository.products.connection
+}
+
+output "ecr_productions" {
+    description = "ECR Productions"
+    value       = aws_ecr_repository.productions.connection
+}
+
+output "ecr_orders" {
+    description = "ECR Orders"
+    value       = aws_ecr_repository.orders.connection
+}
+
+output "ecr_customers" {
+    description = "ECR Customers"
+    value       = aws_ecr_repository.customers.connection
 }
