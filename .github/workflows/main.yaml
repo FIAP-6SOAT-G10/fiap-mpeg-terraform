@@ -43,24 +43,8 @@ jobs:
       - name: Installing Terraform
         uses: hashicorp/setup-terraform@v3
 
-  configure-credentials-to-environment:
-    name: Configuring Environment Vars
-    runs-on: ubuntu-latest
-    needs:
-      - checkout
-      - configure-credentials
-      - install-terraform
-
-    steps:
-      - name: Configuring Secrets to Environment
-        run: echo Configuring Secrets
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-
   init-terraform:
-    name: Terraform Init
+    name: Terraform
     runs-on: ubuntu-latest
     needs:
       - checkout
@@ -69,6 +53,12 @@ jobs:
       - configure-credentials-to-environment
 
     steps:
+      - name: AWS Credentials to Terraform
+        run: echo Configuring Secrets
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       - name: Checkout Terraform Files
         uses: actions/checkout@v4
 
