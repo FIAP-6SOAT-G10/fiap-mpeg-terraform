@@ -6,9 +6,9 @@ resource "aws_db_instance" "rds-customer" {
   engine_version         = 14.9
   username               = "tech"
   password               = "tech_passwd"
-  db_subnet_group_name   = aws_db_subnet_group.rds_customer_subnet_group.name
-  vpc_security_group_ids = [aws_security_group.rds_customer_security_group.id]
-  parameter_group_name   = aws_db_parameter_group.rds_customer_parameter_group.name
+  db_subnet_group_name   = var.rds_customer_subnet_group_name
+  vpc_security_group_ids = [var.rds_customer_security_group_id]
+  parameter_group_name   = var.rds_customer_parameter_group_name
   publicly_accessible    = true
   skip_final_snapshot    = true
 }
@@ -21,9 +21,9 @@ resource "aws_db_instance" "rds-product" {
   engine_version         = 14.9
   username               = "tech"
   password               = "tech_passwd"
-  db_subnet_group_name   = aws_db_subnet_group.rds_product_subnet_group.name
-  vpc_security_group_ids = [aws_security_group.rds_product_security_group.id]
-  parameter_group_name   = aws_db_parameter_group.rds_product_parameter_group.name
+  db_subnet_group_name   = var.rds_product_subnet_group_name
+  vpc_security_group_ids = [var.rds_product_security_group_id]
+  parameter_group_name   = var.rds_product_parameter_group_name
   publicly_accessible    = true
   skip_final_snapshot    = true
 }

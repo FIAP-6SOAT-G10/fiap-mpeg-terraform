@@ -24,11 +24,11 @@ resource "aws_sns_topic" "payment_updates" {
 resource "aws_sns_topic_subscription" "payment_updates_order_sqs_target" {
   topic_arn = aws_sns_topic.payment_updates.arn
   protocol  = "sqs"
-  endpoint  = aws_sqs_queue.order_payment_updates_queue.arn
+  endpoint  = var.order_payment_updates_queue_arn
 }
 
 resource "aws_sns_topic_subscription" "payment_updates_production_sqs_target" {
   topic_arn = aws_sns_topic.payment_updates.arn
   protocol  = "sqs"
-  endpoint  = aws_sqs_queue.production_payment_updates_queue.arn
+  endpoint  = var.production_payment_updates_queue_arn
 }

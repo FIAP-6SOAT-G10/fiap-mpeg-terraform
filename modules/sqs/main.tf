@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "order_payment_updates_policy_document" {
     condition {
       test     = "ArnEquals"
       variable = "aws:SourceArn"
-      values   = [aws_sns_topic.payment_updates.arn]
+      values   = [var.payment_updates_arn]
     }
   }
 }
@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "production_payment_updates_policy_document" {
     condition {
       test     = "ArnEquals"
       variable = "aws:SourceArn"
-      values   = [aws_sns_topic.payment_updates.arn]
+      values   = [var.payment_updates_arn]
     }
   }
 }
