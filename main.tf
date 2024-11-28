@@ -1,22 +1,6 @@
-module "s3" {
-  source                    = "./modules/s3"
-}
-
-module "backend" {
-  source = "./modules/backend"
-
-  depends_on = [
-    module.s3
-  ]
-}
-
 # 1º
 module "vpc" {
   source                    = "./modules/vpc"
-
-  depends_on                = [
-    module.s3
-  ]
 }
 
 # 2º
@@ -24,7 +8,6 @@ module "ig" {
   source                    = "./modules/ig"
 
   depends_on                = [
-    module.s3,
     module.vpc
   ]
 
@@ -39,7 +22,6 @@ module "sg" {
   source = "./modules/sg"
 
   depends_on = [
-    module.s3,
     module.vpc
   ]
 
@@ -54,7 +36,6 @@ module "subnet" {
   source                    = "./modules/subnet"
 
   depends_on                = [
-    module.s3,
     module.vpc
   ]
 
@@ -71,7 +52,6 @@ module "eks" {
   source                    = "./modules/eks"
 
   depends_on                = [
-    module.s3,
     module.subnet
   ]
 
@@ -88,10 +68,6 @@ module "eks" {
 # 6º
 module "pg" {
   source = "./modules/pg"
-
-  depends_on = [
-    module.s3
-  ]
 }
 
 # 7º
@@ -99,7 +75,6 @@ module "rds" {
   source = "./modules/rds"
 
   depends_on = [
-    module.s3,
     module.subnet,
     module.sg,
     module.pg
@@ -119,7 +94,6 @@ module "redis" {
   source = "./modules/redis"
 
   depends_on = [
-    module.s3,
     module.subnet,
     module.sg
   ]
@@ -133,7 +107,6 @@ module "redshift" {
   source = "./modules/redshift"
 
   depends_on = [
-    module.s3,
     module.subnet,
     module.sg
   ]
@@ -148,7 +121,6 @@ module "rt" {
   source = "./modules/rt"
 
   depends_on = [
-    module.s3,
     module.vpc,
     module.ig
   ]
@@ -166,7 +138,6 @@ module "rta" {
   source = "./modules/rta"
 
   depends_on = [
-    module.s3,
     module.subnet,
     module.rt
   ]
@@ -185,10 +156,6 @@ module "rta" {
 module "sns" {
   source = "./modules/sns"
 
-  depends_on = [
-    module.s3
-  ]
-
   order_payment_updates_queue_arn = module.sqs.order_payment_updates_queue_arn
   production_payment_updates_queue_arn = module.sqs.production_payment_updates_queue_arn
 }
@@ -196,17 +163,9 @@ module "sns" {
 module "sqs" {
   source = "./modules/sqs"
 
-  depends_on = [
-    module.s3
-  ]
-
   payment_updates_arn = module.sns.payment_updates_arn
 }
 
 module "ecr" {
   source                    = "./modules/ecr"
-
-  depends_on = [
-    module.s3
-  ]
 }

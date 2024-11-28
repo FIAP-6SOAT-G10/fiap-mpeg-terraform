@@ -1,4 +1,4 @@
-name: Deploy
+name: Terraform
 
 on:
   push:
@@ -33,13 +33,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
         run: terraform plan -out=tfplan
-
-      - name: Terraform Destroy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-        run: terraform destroy --auto-approve
 
       - name: Terraform Apply
         env:
