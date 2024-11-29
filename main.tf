@@ -169,3 +169,9 @@ module "sqs" {
 module "ecr" {
   source                    = "./modules/ecr"
 }
+
+module "mongo" {
+  source = "./modules/mongo"
+
+  organization_id = data.mongodbatlas_roles_org_id.fiap.org_id
+}

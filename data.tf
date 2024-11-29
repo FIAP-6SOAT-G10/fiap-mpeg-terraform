@@ -29,3 +29,5 @@ data "aws_iam_policy" "cni_policy" {
 data "aws_iam_policy" "container_registry_read_only_policy" {
   arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
+
+data "mongodbatlas_roles_org_id" "fiap" {}
