@@ -44,7 +44,7 @@ jobs:
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
         run: |
           if [ ${{ !vars.DESTROY }} ]; then
-            terraform plan -out=tfplan
+            terraform plan -out=tfplan -parallelism=20
           fi
 
       - name: Terraform Apply
@@ -54,5 +54,5 @@ jobs:
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
         run: |
           if [ ${{ !vars.DESTROY }} ]; then
-            terraform apply --auto-approve
+            terraform apply -auto-approve -parallelism=20 tfplan
           fi
