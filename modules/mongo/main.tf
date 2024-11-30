@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    mongodbatlas      = {
+      source          = "mongodb/mongodbatlas"
+      version         = "1.21.4"
+    }
+  }
+}
+
 resource "mongodbatlas_database_user" "fiap_dbs" {
   username           = "masteruser"
   password           = "M45t3rp455"
