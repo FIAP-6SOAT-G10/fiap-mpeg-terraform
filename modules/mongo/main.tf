@@ -51,7 +51,6 @@ resource "mongodbatlas_cluster" "order_cluster" {
   backing_provider_name         = "AWS"
   provider_region_name          = "US_EAST_1"
   provider_instance_size_name   = "M0"
-  backup_enabled                = false
   retain_backups_enabled        = false
   cloud_backup                  = false
   termination_protection_enabled = false
