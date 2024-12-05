@@ -152,7 +152,6 @@ module "rta" {
   eks_private_subnets_ids = module.subnet.eks_public_subnet_ids
 }
 
-
 module "sns" {
   source = "./modules/sns"
 
