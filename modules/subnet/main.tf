@@ -13,7 +13,7 @@ resource "aws_subnet" "eks_cluster_subnet_pub_1" {
 
 resource "aws_subnet" "eks_cluster_subnet_pub_2" {
   vpc_id                                        = var.eks_vpc_id
-  cidr_block                                    = "192.169.0.0/22"
+  cidr_block                                    = "192.168.4.0/22"
   availability_zone                             = var.aws_availability_zone_us_east_1b_name
   map_public_ip_on_launch                       = true
   tags = {
@@ -25,7 +25,7 @@ resource "aws_subnet" "eks_cluster_subnet_pub_2" {
 
 resource "aws_subnet" "eks_cluster_subnet_pvt_1" {
   vpc_id                                        = var.eks_vpc_id
-  cidr_block                                    = "192.170.0.0/22"
+  cidr_block                                    = "192.168.8.0/22"
   availability_zone                             = var.aws_availability_zone_us_east_1a_name
   map_public_ip_on_launch                       = true
   tags                                          = {
@@ -36,7 +36,7 @@ resource "aws_subnet" "eks_cluster_subnet_pvt_1" {
 
 resource "aws_subnet" "eks_cluster_subnet_pvt_2" {
   vpc_id                                        = var.eks_vpc_id
-  cidr_block                                    = "192.171.0.0/22"
+  cidr_block                                    = "192.168.12.0/22"
   availability_zone                             = var.aws_availability_zone_us_east_1b_name
   map_public_ip_on_launch                       = true
   tags                                          = {
