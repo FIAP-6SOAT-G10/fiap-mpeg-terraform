@@ -28,22 +28,22 @@ module "subnet" {
 }
 
 # 4º
-# module "eks" {
-#   source                    = "./modules/eks"
-#
-#   depends_on                = [
-#     module.subnet
-#   ]
-#
-#   lab_role_arn              = data.aws_iam_role.lab_role.arn
-#   eks_private_subnet_id_1   = module.subnet.eks_private_subnet_ids[0]
-#   eks_private_subnet_id_2   = module.subnet.eks_private_subnet_ids[1]
-#   eks_public_subnet_id_1    = module.subnet.eks_public_subnet_ids[0]
-#   eks_public_subnet_id_2    = module.subnet.eks_public_subnet_ids[1]
-#   worker_node_policy        = data.aws_iam_policy.worker_node_policy.name
-#   cni_policy                = data.aws_iam_policy.cni_policy.name
-#   container_reg_ro_policy   = data.aws_iam_policy.container_registry_read_only_policy.name
-# }
+module "eks" {
+  source                    = "./modules/eks"
+
+  depends_on                = [
+    module.subnet
+  ]
+
+  lab_role_arn              = data.aws_iam_role.lab_role.arn
+  eks_private_subnet_id_1   = module.subnet.eks_private_subnet_ids[0]
+  eks_private_subnet_id_2   = module.subnet.eks_private_subnet_ids[1]
+  eks_public_subnet_id_1    = module.subnet.eks_public_subnet_ids[0]
+  eks_public_subnet_id_2    = module.subnet.eks_public_subnet_ids[1]
+  worker_node_policy        = data.aws_iam_policy.worker_node_policy.name
+  cni_policy                = data.aws_iam_policy.cni_policy.name
+  container_reg_ro_policy   = data.aws_iam_policy.container_registry_read_only_policy.name
+}
 
 # 5º
 module "rt" {
