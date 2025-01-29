@@ -1,4 +1,4 @@
-# FIAP Fast Food EKS Deployment
+# FIAP MPEG Terraform
 
 Este projeto configura e implanta um cluster EKS na AWS usando Terraform. Ele inclui a configuração de sub-redes, balanceadores de carga, grupos de segurança, e outros recursos necessários para rodar um aplicativo de fast food.
 
