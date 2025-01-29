@@ -1,5 +1,5 @@
-resource "aws_eks_cluster" "fiap_fast_food_eks" {
-  name     = "fiap_fast_food_eks"
+resource "aws_eks_cluster" "fiap_mpeg_eks" {
+  name     = "fiap_mpeg_eks"
   role_arn = var.lab_role_arn
 
   vpc_config {
@@ -24,7 +24,7 @@ resource "aws_eks_cluster" "fiap_fast_food_eks" {
 }
 
 resource "aws_eks_node_group" "fiap_fast_food_node_group_public" {
-  cluster_name    = aws_eks_cluster.fiap_fast_food_eks.name
+  cluster_name    = aws_eks_cluster.fiap_mpeg_eks.name
   node_group_name = "fiap_fast_food_public"
   node_role_arn   = var.lab_role_arn
   subnet_ids      = [
