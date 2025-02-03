@@ -21,11 +21,12 @@ data "aws_iam_policy_document" "request_video_processor_policy_document" {
 }
 
 resource "aws_sqs_queue" "sqs_request_video_processor" {
-  name                  = "sqs-request-video-processor"
-  redrive_policy        = jsonencode({
-    deadLetterTargetArn = aws_sqs_queue.sqs_request_video_processor_dlq.arn,
-    maxReceiveCount     = 10
+  name                        = "sqs-request-video-processor"
+  redrive_policy              = jsonencode({
+    deadLetterTargetArn       = aws_sqs_queue.sqs_request_video_processor_dlq.arn,
+    maxReceiveCount           = 10
   })
+  visibility_timeout_seconds  = 120
 }
 
 resource "aws_sqs_queue" "sqs_request_video_processor_dlq" {
